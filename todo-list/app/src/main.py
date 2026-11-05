@@ -32,7 +32,11 @@ async def api_create_task(task: TaskCreate):
 
 @app.get("/tasks", response_model=list[Task])
 async def api_get_tasks():
-    return await get_all_tasks()
+    try:
+        return await get_all_tasks()
+    except Exception as e:
+        # Этот код выведет ошибку прямо в браузер
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.get("/tasks/{task_id}", response_model=Task)
